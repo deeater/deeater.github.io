@@ -18,6 +18,10 @@ DATA_DIR = BASE_DIR / "data"
 OUTPUT_FILE = DATA_DIR / "leaderboard.json"
 
 
+# ============================================================
+# 1. Text normalization
+# ============================================================
+
 def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", str(text or "")).strip().lower()
 
@@ -28,7 +32,6 @@ def normalize_for_match(text: str) -> str:
     replacements = {
         "–": "-",
         "—": "-",
-        "-": "-",
         "“": '"',
         "”": '"',
         "’": "'",
@@ -52,6 +55,10 @@ def compact_for_match(text: str) -> str:
 def clean_cell(value) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
 
+
+# ============================================================
+# 2. Google Sheet course extraction
+# ============================================================
 
 def is_probably_course_title(value: str) -> bool:
     value = clean_cell(value)
@@ -79,36 +86,40 @@ def is_probably_course_title(value: str) -> bool:
         "카테고리",
         "난이도",
         "구분",
+        "뱃지 종류",
+        "배지 종류",
     ]
 
     if any(keyword in low for keyword in blocked_keywords):
         return False
 
+    # Google Skills 과정명은 대부분 영문을 포함하므로 기본 조건으로 사용
     if not re.search(r"[A-Za-z]", value):
         return False
 
     return True
 
 
-def detect_badge_type(row_text: str) -> str:
+def detect_badge_type(row_text: str, explicit_type: str = "") -> str:
+    """
+    현재 구글 시트 기준:
+    - 뱃지 종류 칸에 Skill Badge라고 적혀 있으면 Skill Badge
+    - 그 외 빈 칸 또는 별도 표시가 없으면 일반 Badge로 처리
+
+    즉, 시트에 Skill Badge만 명시되어 있고,
+    일반 Completion Badge는 비어 있는 구조를 기준으로 한다.
+    """
+
+    explicit = normalize(explicit_type)
     text = normalize(row_text)
+
+    if "skill badge" in explicit or "skills badge" in explicit or "스킬 배지" in explicit:
+        return "Skill Badge"
 
     if "skill badge" in text or "skills badge" in text or "스킬 배지" in text:
         return "Skill Badge"
 
-    if "completion badge" in text:
-        return "Badge"
-
-    if "completion" in text and "badge" in text:
-        return "Badge"
-
-    if "수료 배지" in text:
-        return "Badge"
-
-    if "badge" in text or "배지" in text:
-        return "Badge"
-
-    return "Course"
+    return "Badge"
 
 
 def fetch_sheet_csv(spreadsheet_id: str, sheet_name: str):
@@ -135,12 +146,14 @@ def fetch_sheet_csv(spreadsheet_id: str, sheet_name: str):
 def find_header_index(headers, candidates):
     normalized_headers = [normalize(h) for h in headers]
 
+    # 1차: 완전 일치
     for candidate in candidates:
         candidate_norm = normalize(candidate)
         for idx, header in enumerate(normalized_headers):
             if candidate_norm == header:
                 return idx
 
+    # 2차: 포함 일치
     for candidate in candidates:
         candidate_norm = normalize(candidate)
         for idx, header in enumerate(normalized_headers):
@@ -161,6 +174,7 @@ def extract_courses_from_rows(sheet_name: str, rows):
     level_idx = None
     type_idx = None
 
+    # 상단 25줄 안에서 헤더 탐색
     for i, row in enumerate(rows[:25]):
         headers = [clean_cell(c) for c in row]
 
@@ -182,10 +196,33 @@ def extract_courses_from_rows(sheet_name: str, rows):
         if possible_title_idx is not None:
             header_row_index = i
             title_idx = possible_title_idx
-            level_idx = find_header_index(headers, ["Level", "Difficulty", "난이도"])
-            type_idx = find_header_index(headers, ["Type", "Badge", "구분", "배지"])
+
+            level_idx = find_header_index(
+                headers,
+                [
+                    "Level",
+                    "Difficulty",
+                    "난이도",
+                ],
+            )
+
+            type_idx = find_header_index(
+                headers,
+                [
+                    "Type",
+                    "Badge",
+                    "Badge Type",
+                    "구분",
+                    "배지",
+                    "뱃지",
+                    "뱃지 종류",
+                    "배지 종류",
+                ],
+            )
+
             break
 
+    # 헤더를 찾은 경우
     if header_row_index is not None and title_idx is not None:
         for row in rows[header_row_index + 1:]:
             if title_idx >= len(row):
@@ -197,16 +234,16 @@ def extract_courses_from_rows(sheet_name: str, rows):
                 continue
 
             row_text = " ".join(clean_cell(c) for c in row)
-            badge_type = detect_badge_type(row_text)
 
             level = ""
             if level_idx is not None and level_idx < len(row):
                 level = clean_cell(row[level_idx])
 
+            explicit_type = ""
             if type_idx is not None and type_idx < len(row):
                 explicit_type = clean_cell(row[type_idx])
-                if explicit_type:
-                    badge_type = detect_badge_type(explicit_type + " " + row_text)
+
+            badge_type = detect_badge_type(row_text, explicit_type)
 
             courses.append(
                 {
@@ -214,13 +251,13 @@ def extract_courses_from_rows(sheet_name: str, rows):
                     "sheet": sheet_name,
                     "level": level,
                     "type": badge_type,
-                    "isBadge": badge_type == "Badge",
                     "isSkillBadge": badge_type == "Skill Badge",
                 }
             )
 
         return courses
 
+    # 헤더를 못 찾은 경우 fallback
     for row in rows:
         cells = [clean_cell(c) for c in row]
         row_text = " ".join(cells)
@@ -249,7 +286,6 @@ def extract_courses_from_rows(sheet_name: str, rows):
                 "sheet": sheet_name,
                 "level": level,
                 "type": badge_type,
-                "isBadge": badge_type == "Badge",
                 "isSkillBadge": badge_type == "Skill Badge",
             }
         )
@@ -286,6 +322,10 @@ def load_courses_from_google_sheet(config):
     return all_courses
 
 
+# ============================================================
+# 3. Google Skills public profile extraction
+# ============================================================
+
 def extract_profile(url: str) -> dict:
     headers = {
         "User-Agent": "Mozilla/5.0 (compatible; GoogleSkillsLeaderboard/1.0)"
@@ -297,14 +337,12 @@ def extract_profile(url: str) -> dict:
     html = response.text
     soup = BeautifulSoup(html, "html.parser")
 
-    # 줄 단위 텍스트
     lines = [
         line.strip()
         for line in soup.get_text("\n", strip=True).splitlines()
         if line.strip()
     ]
 
-    # 전체 검색용 텍스트
     profile_text = soup.get_text(" ", strip=True)
     profile_text = normalize_for_match(profile_text)
 
@@ -324,11 +362,12 @@ def extract_profile(url: str) -> dict:
         if points_match:
             points = int(points_match.group(1).replace(",", ""))
 
-    # 기존 방식도 유지: 운 좋게 같은 줄에 있는 경우를 잡기 위함
     earned_items = []
 
-    for line in lines:
+    for i, line in enumerate(lines):
         if "Earned" in line:
+            # 형태 1:
+            # "Gemini in Gmail Earned Apr 18, 2026 EDT"
             match = re.match(r"^(.*?)\s+Earned\s+(.+)$", line)
             if match:
                 title = match.group(1).strip()
@@ -338,6 +377,22 @@ def extract_profile(url: str) -> dict:
                     earned_items.append(
                         {
                             "title": title,
+                            "earnedDate": earned_date,
+                        }
+                    )
+                continue
+
+            # 형태 2:
+            # 이전 줄: "Gemini in Gmail"
+            # 현재 줄: "Earned Apr 18, 2026 EDT"
+            if i > 0:
+                prev_line = lines[i - 1].strip()
+                earned_date = line.replace("Earned", "", 1).strip()
+
+                if prev_line and is_probably_course_title(prev_line):
+                    earned_items.append(
+                        {
+                            "title": prev_line,
                             "earnedDate": earned_date,
                         }
                     )
@@ -360,12 +415,11 @@ def course_exists_in_profile(profile: dict, course_title: str) -> bool:
     profile_text = profile.get("profileText", "")
     profile_text_compact = profile.get("profileTextCompact", "")
 
-    # 1차: 공백 정규화 후 그대로 포함되는지 확인
+    # 1차: 공백 정규화 후 원문 포함 여부 확인
     if title_norm and title_norm in profile_text:
         return True
 
-    # 2차: 특수문자, 공백 제거 후 포함되는지 확인
-    # 단, 너무 짧은 제목은 오탐 가능성이 높으므로 제한
+    # 2차: 공백/특수문자 제거 후 포함 여부 확인
     if len(title_compact) >= 8 and title_compact in profile_text_compact:
         return True
 
@@ -373,12 +427,18 @@ def course_exists_in_profile(profile: dict, course_title: str) -> bool:
 
 
 def extract_earned_date_from_profile(profile_text: str, course_title: str):
-    # 정확한 날짜 추출은 보조 기능이다.
-    # 구조가 바뀌면 null이어도 완료 여부에는 영향 없음.
+    """
+    날짜는 보조 정보다.
+    완료 여부 판단에는 사용하지 않는다.
+    """
+
     text = normalize_for_match(profile_text)
     title = re.escape(normalize_for_match(course_title))
 
-    pattern = title + r".{0,120}?earned\s+([a-z]{3,9}\s+\d{1,2},\s+\d{4}(?:\s+[a-z]{2,4})?)"
+    pattern = (
+        title
+        + r".{0,160}?earned\s+([a-z]{3,9}\s+\d{1,2},\s+\d{4}(?:\s+[a-z]{2,4})?)"
+    )
 
     match = re.search(pattern, text, re.IGNORECASE)
     if match:
@@ -387,6 +447,10 @@ def extract_earned_date_from_profile(profile_text: str, course_title: str):
     return None
 
 
+# ============================================================
+# 4. Main aggregation
+# ============================================================
+
 def main():
     config = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
     profiles = json.loads(PROFILES_FILE.read_text(encoding="utf-8"))
@@ -394,8 +458,17 @@ def main():
     courses = load_courses_from_google_sheet(config)
 
     total_courses = len(courses)
-    total_badges = sum(1 for c in courses if c["isBadge"])
     total_skill_badges = sum(1 for c in courses if c["isSkillBadge"])
+
+    # 중요:
+    # 시트에서 Skill Badge라고 표시되지 않은 나머지 항목은 일반 Badge로 계산
+    total_badges = total_courses - total_skill_badges
+
+    print("")
+    print(f"Total courses: {total_courses}")
+    print(f"Total badges: {total_badges}")
+    print(f"Total skill badges: {total_skill_badges}")
+    print("")
 
     students = []
 
@@ -419,14 +492,14 @@ def main():
             for course in courses:
                 key = normalize(course["title"])
 
-                completed_by_old_method = key in earned_titles
+                completed_by_earned_line = key in earned_titles
                 completed_by_text_search = course_exists_in_profile(raw, course["title"])
 
-                completed = completed_by_old_method or completed_by_text_search
+                completed = completed_by_earned_line or completed_by_text_search
 
                 earned_date = None
 
-                if completed_by_old_method:
+                if completed_by_earned_line:
                     earned_date = earned_titles[key].get("earnedDate")
 
                 if completed and not earned_date:
@@ -439,20 +512,22 @@ def main():
                     completed_count += 1
                     debug_matched_titles.append(course["title"])
 
-                    if course["isBadge"]:
-                        badge_count += 1
-
+                    # 핵심 기준:
+                    # 완료한 항목 중 시트에서 Skill Badge로 분류된 것만 Skill Badge
+                    # 그 외 완료 항목은 일반 Badge
                     if course["isSkillBadge"]:
                         skill_badge_count += 1
+                    else:
+                        badge_count += 1
 
                 completed_courses.append(
                     {
                         "title": course["title"],
                         "sheet": course["sheet"],
                         "level": course["level"],
-                        "type": course["type"],
-                        "isBadge": course["isBadge"],
+                        "type": "Skill Badge" if course["isSkillBadge"] else "Badge",
                         "isSkillBadge": course["isSkillBadge"],
+                        "isBadge": not course["isSkillBadge"],
                         "completed": completed,
                         "earnedDate": earned_date,
                     }
@@ -522,6 +597,20 @@ def main():
         reverse=True,
     )
 
+    output_courses = []
+
+    for course in courses:
+        output_courses.append(
+            {
+                "title": course["title"],
+                "sheet": course["sheet"],
+                "level": course["level"],
+                "type": "Skill Badge" if course["isSkillBadge"] else "Badge",
+                "isSkillBadge": course["isSkillBadge"],
+                "isBadge": not course["isSkillBadge"],
+            }
+        )
+
     output = {
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "spreadsheetId": config["spreadsheetId"],
@@ -529,7 +618,7 @@ def main():
         "totalBadges": total_badges,
         "totalSkillBadges": total_skill_badges,
         "students": students,
-        "courses": courses,
+        "courses": output_courses,
     }
 
     DATA_DIR.mkdir(exist_ok=True)
