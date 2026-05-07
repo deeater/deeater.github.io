@@ -3,399 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Google Skills Leaderboard</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #111827;
-    }
-
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 32px 18px 64px;
-    }
-
-    .hero {
-      background: white;
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      margin: 0 0 8px;
-      font-size: 34px;
-      letter-spacing: -0.04em;
-    }
-
-    .hero p {
-      margin: 0;
-      color: #64748b;
-      line-height: 1.6;
-    }
-
-    .updated {
-      margin-top: 12px;
-      font-size: 14px;
-      color: #64748b;
-    }
-
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .summary-card {
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-    }
-
-    .summary-card .label {
-      color: #64748b;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
-    .summary-card .value {
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    .leaderboard {
-      background: white;
-      border-radius: 22px;
-      padding: 18px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-      overflow-x: auto;
-      margin-bottom: 20px;
-    }
-
-    table {
-      width: 100%;
-      min-width: 980px;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 15px 12px;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-      font-size: 14px;
-    }
-
-    th {
-      color: #475569;
-      background: #f8fafc;
-      font-weight: 800;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    .rank {
-      font-size: 20px;
-      font-weight: 900;
-    }
-
-    .name a {
-      color: #111827;
-      font-weight: 800;
-      text-decoration: none;
-    }
-
-    .name a:hover {
-      text-decoration: underline;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .pill-badge {
-      background: #ede9fe;
-      color: #5b21b6;
-    }
-
-    .pill-skill {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .progress-wrap {
-      width: 160px;
-      height: 10px;
-      background: #e5e7eb;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 10px;
-      background: #2563eb;
-      border-radius: 999px;
-    }
-
-    .details {
-      display: grid;
-      gap: 16px;
-    }
-
-    .student-card {
-      background: white;
-      border-radius: 22px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-    }
-
-    .student-card h2 {
-      margin: 0 0 14px;
-      font-size: 22px;
-    }
-
-    .course-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .course {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 12px;
-      background: #f8fafc;
-      font-size: 13px;
-    }
-
-    .course.completed {
-      background: #ecfdf5;
-      border-color: #bbf7d0;
-    }
-
-    .course-title {
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .course-meta {
-      color: #64748b;
-      line-height: 1.5;
-      margin-bottom: 8px;
-    }
-
-    .status-completed {
-      color: #047857;
-      font-weight: 800;
-    }
-
-    .status-pending {
-      color: #9ca3af;
-      font-weight: 800;
-    }
-
-    .error {
-      background: #fef2f2;
-      color: #991b1b;
-      border-radius: 14px;
-      padding: 16px;
-      font-weight: 700;
-    }
-
-    @media (max-width: 860px) {
-      .summary {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .course-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 26px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="container">
-    <section class="hero">
-      <h1>Google Skills Leaderboard</h1>
-      <p>
-        This leaderboard tracks Badge and Skill Badge completion from public Google Skills profiles.
-      </p>
-      <div class="updated" id="updatedAt">Loading...</div>
-    </section>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">Google Skills Dashboard</p>
+        <h1>Leaderboard</h1>
+        <p class="hero-desc">
+          Track each participant's completion badges, skill badges, and overall progress.
+        </p>
+      </div>
+      <div class="hero-meta" id="updatedAtBox">
+        <span class="meta-label">Last Updated</span>
+        <strong id="updatedAt">Loading...</strong>
+      </div>
+    </header>
 
-    <section class="summary">
-      <div class="summary-card">
-        <div class="label">Participants</div>
-        <div class="value" id="participantCount">-</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">Tracked Courses</div>
-        <div class="value" id="totalCourses">-</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">Badges</div>
-        <div class="value" id="totalBadges">-</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">Skill Badges</div>
-        <div class="value" id="totalSkillBadges">-</div>
-      </div>
-    </section>
+    <main class="content">
+      <section class="panel" id="summaryPanel">
+        <div class="panel-header">
+          <h2>Overview</h2>
+          <p>A summary of the current leaderboard status.</p>
+        </div>
+        <div class="summary-grid" id="summaryGrid"></div>
+      </section>
 
-    <section class="leaderboard">
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Skill Badges</th>
-            <th>Badges</th>
-            <th>Total Completed</th>
-            <th>Points</th>
-            <th>League</th>
-            <th>Progress</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboardBody"></tbody>
-      </table>
-    </section>
+      <section class="panel" id="rewardPanel">
+        <div class="panel-header">
+          <h2>Rewards</h2>
+          <p>
+            Official reward tiers are shown below. You can also add your own custom rewards.
+          </p>
+        </div>
 
-    <section class="details" id="details"></section>
+        <div class="reward-section">
+          <h3 class="subheading">Official Rewards</h3>
+          <div class="reward-grid" id="officialRewards"></div>
+        </div>
+
+        <div class="reward-section" id="customRewardSection">
+          <h3 class="subheading">Custom Rewards</h3>
+          <div class="reward-grid" id="customRewards"></div>
+        </div>
+      </section>
+
+      <section class="panel" id="leaderboardPanel">
+        <div class="panel-header">
+          <h2>Leaderboard</h2>
+          <p>The table shows completion badges first, followed by skill badges and total completions.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Completion Badges</th>
+                <th>Skill Badges</th>
+                <th>Total Completed</th>
+                <th>Reward Status</th>
+                <th>Profile</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="studentPanel">
+        <div class="panel-header">
+          <h2>Participant Details</h2>
+          <p>Completed items are summarized by default. Use the button to expand the full list.</p>
+        </div>
+        <div class="student-list" id="studentList"></div>
+      </section>
+
+      <section class="panel error-panel hidden" id="errorPanel">
+        <div class="panel-header">
+          <h2>Error</h2>
+        </div>
+        <p id="errorText"></p>
+      </section>
+    </main>
   </div>
 
-  <script>
-    async function loadLeaderboard() {
-      try {
-        const response = await fetch("./data/leaderboard.json?ts=" + Date.now());
-
-        if (!response.ok) {
-          throw new Error("leaderboard.json was not found. Run the GitHub Action first.");
-        }
-
-        const data = await response.json();
-
-        document.getElementById("participantCount").textContent = data.students.length;
-        document.getElementById("totalCourses").textContent = data.totalCourses;
-        document.getElementById("totalBadges").textContent = data.totalBadges;
-        document.getElementById("totalSkillBadges").textContent = data.totalSkillBadges;
-
-        const updatedAt = new Date(data.updatedAt);
-        document.getElementById("updatedAt").textContent =
-          "Last updated: " + updatedAt.toLocaleString("en-US");
-
-        renderLeaderboard(data.students);
-        renderDetails(data.students);
-
-      } catch (error) {
-        document.querySelector(".container").insertAdjacentHTML(
-          "beforeend",
-          `<div class="error">${escapeHtml(error.message)}</div>`
-        );
-      }
-    }
-
-    function renderLeaderboard(students) {
-      const tbody = document.getElementById("leaderboardBody");
-      tbody.innerHTML = "";
-
-      students.forEach((student, index) => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-          <td class="rank">${index + 1}</td>
-          <td class="name">
-            <a href="${student.url}" target="_blank" rel="noopener noreferrer">
-              ${escapeHtml(student.name)}
-            </a>
-          </td>
-          <td>
-            <span class="pill pill-skill">
-              ${student.skillBadgeCount} / ${student.totalSkillBadges}
-            </span>
-          </td>
-          <td>
-            <span class="pill pill-badge">
-              ${student.badgeCount} / ${student.totalBadges}
-            </span>
-          </td>
-          <td>${student.completedCount} / ${student.totalCourses}</td>
-          <td>${student.points}</td>
-          <td>${escapeHtml(student.league || "-")}</td>
-          <td>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div class="progress-wrap">
-                <div class="progress-bar" style="width:${student.completionRate}%"></div>
-              </div>
-              <strong>${student.completionRate}%</strong>
-            </div>
-          </td>
-        `;
-
-        tbody.appendChild(row);
-      });
-    }
-
-    function renderDetails(students) {
-      const details = document.getElementById("details");
-      details.innerHTML = "";
-
-      students.forEach(student => {
-        const completedCourses = student.courses.filter(course => course.completed);
-
-        const card = document.createElement("div");
-        card.className = "student-card";
-
-        const coursesHtml = completedCourses.map(course => `
-          <div class="course completed">
-            <div class="course-title">${escapeHtml(course.title)}</div>
-            <div class="course-meta">
-              ${escapeHtml(course.sheet)} · ${escapeHtml(course.level || "-")} · ${escapeHtml(course.type)}
-            </div>
-            <div class="status-completed">
-              Completed${course.earnedDate ? " · " + escapeHtml(course.earnedDate) : ""}
-            </div>
-          </div>
-        `).join("");
-
-        card.innerHTML = `
-          <h2>${escapeHtml(student.name)}</h2>
-          <div class="course-grid">
-            ${coursesHtml || `<div class="course"><div class="status-pending">No completed tracked items yet.</div></div>`}
-          </div>
-        `;
-
-        details.appendChild(card);
-      });
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    loadLeaderboard();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
