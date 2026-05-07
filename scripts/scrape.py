@@ -19,11 +19,83 @@ OUTPUT_FILE = DATA_DIR / "leaderboard.json"
 
 
 def normalize(text: str) -> str:
-    return re.sub(r"\s+", " ", str(text)).strip().lower()
+    return re.sub(r"\s+", " ", str(text or "")).strip().lower()
 
 
 def clean_cell(value) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
+def is_probably_course_title(value: str) -> bool:
+    value = clean_cell(value)
+    low = normalize(value)
+
+    if not value:
+        return False
+
+    if len(value) < 4 or len(value) > 160:
+        return False
+
+    blocked_keywords = [
+        "home",
+        "level",
+        "difficulty",
+        "category",
+        "badge",
+        "skill badge",
+        "completion badge",
+        "구글 클라우드 스터디 잼",
+        "주의 사항",
+        "학습 포인트",
+        "이용 방법",
+        "키워드",
+        "카테고리",
+        "난이도",
+        "구분"
+    ]
+
+    if any(keyword in low for keyword in blocked_keywords):
+        return False
+
+    if not re.search(r"[A-Za-z]", value):
+        return False
+
+    return True
+
+
+def detect_badge_type(row_text: str) -> str:
+    text = normalize(row_text)
+
+    if "skill badge" in text or "skills badge" in text or "스킬 배지" in text:
+        return "Skill Badge"
+
+    if "completion badge" in text or "completion" in text and "badge" in text or "수료 배지" in text:
+        return "Badge"
+
+    if "badge" in text or "배지" in text:
+        return "Badge"
+
+    return "Course"
+
+
+def fetch_sheet_csv(spreadsheet_id: str, sheet_name: str):
+    encoded_sheet_name = quote(sheet_name)
+
+    url = (
+        f"https://docs.google.com/spreadsheets/d/{spreadsheet_id}/gviz/tq"
+        f"?tqx=out:csv&sheet={encoded_sheet_name}"
+    )
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (compatible; GoogleSkillsLeaderboard/1.0)"
+    }
+
+    response = requests.get(url, headers=headers, timeout=30)
+    response.raise_for_status()
+
+    content = response.content.decode("utf-8-sig", errors="replace")
+    reader = csv.reader(io.StringIO(content))
+    return list(reader)
 
 
 def find_header_index(headers, candidates):
@@ -44,94 +116,6 @@ def find_header_index(headers, candidates):
     return None
 
 
-def is_probably_course_title(value: str) -> bool:
-    value = clean_cell(value)
-
-    if not value:
-        return False
-
-    low = normalize(value)
-
-    blocked_keywords = [
-        "구글 클라우드 스터디 잼",
-        "주의 사항",
-        "google skills",
-        "학습 포인트",
-        "이용 방법",
-        "키워드",
-        "주요 학습 내용",
-        "나에게 딱 맞는",
-        "직접 검색",
-        "gemini 활용",
-        "level",
-        "difficulty",
-        "난이도",
-        "카테고리",
-        "category",
-        "badge",
-        "skill badge",
-        "completion badge",
-    ]
-
-    if any(keyword in low for keyword in blocked_keywords):
-        return False
-
-    if len(value) < 4:
-        return False
-
-    if len(value) > 140:
-        return False
-
-    if not re.search(r"[A-Za-z]", value):
-        return False
-
-    return True
-
-
-def detect_skill_badge(row_text: str) -> bool:
-    text = normalize(row_text)
-
-    return (
-        "skill badge" in text
-        or "skills badge" in text
-        or "스킬 배지" in text
-        or "스킬뱃지" in text
-        or "스킬뱃" in text
-    )
-
-
-def detect_completion_badge(row_text: str) -> bool:
-    text = normalize(row_text)
-
-    return (
-        "completion badge" in text
-        or ("completion" in text and "badge" in text)
-        or "수료 배지" in text
-        or "수료뱃지" in text
-    )
-
-
-def fetch_sheet_csv(spreadsheet_id: str, sheet_name: str):
-    encoded_sheet_name = quote(sheet_name)
-
-    url = (
-        f"https://docs.google.com/spreadsheets/d/{spreadsheet_id}/gviz/tq"
-        f"?tqx=out:csv&sheet={encoded_sheet_name}"
-    )
-
-    headers = {
-        "User-Agent": "Mozilla/5.0 (compatible; GoogleSkillsLeaderboard/1.0)"
-    }
-
-    response = requests.get(url, headers=headers, timeout=30)
-    response.raise_for_status()
-
-    content = response.content.decode("utf-8-sig", errors="replace")
-    reader = csv.reader(io.StringIO(content))
-
-    return list(reader)
-
-
 def extract_courses_from_rows(sheet_name: str, rows):
     courses = []
 
@@ -141,33 +125,31 @@ def extract_courses_from_rows(sheet_name: str, rows):
     header_row_index = None
     title_idx = None
     level_idx = None
-    badge_idx = None
-    category_idx = None
+    type_idx = None
 
-    for i, row in enumerate(rows[:30]):
+    for i, row in enumerate(rows[:25]):
         headers = [clean_cell(c) for c in row]
 
         possible_title_idx = find_header_index(
             headers,
             [
+                "Course",
+                "Course Name",
+                "Title",
+                "Content",
+                "Module",
                 "과정명",
                 "콘텐츠명",
                 "학습 콘텐츠",
-                "코스명",
-                "Course",
-                "Course Name",
-                "Content",
-                "Title",
-                "Module",
-            ],
+                "코스명"
+            ]
         )
 
         if possible_title_idx is not None:
             header_row_index = i
             title_idx = possible_title_idx
-            level_idx = find_header_index(headers, ["난이도", "Level", "Difficulty"])
-            badge_idx = find_header_index(headers, ["Badge", "배지", "Type", "구분"])
-            category_idx = find_header_index(headers, ["Category", "카테고리", "Keyword", "키워드"])
+            level_idx = find_header_index(headers, ["Level", "Difficulty", "난이도"])
+            type_idx = find_header_index(headers, ["Type", "Badge", "구분", "배지"])
             break
 
     if header_row_index is not None and title_idx is not None:
@@ -181,26 +163,24 @@ def extract_courses_from_rows(sheet_name: str, rows):
                 continue
 
             row_text = " ".join(clean_cell(c) for c in row)
+            badge_type = detect_badge_type(row_text)
 
             level = ""
             if level_idx is not None and level_idx < len(row):
                 level = clean_cell(row[level_idx])
 
-            badge_text = ""
-            if badge_idx is not None and badge_idx < len(row):
-                badge_text = clean_cell(row[badge_idx])
-
-            category = ""
-            if category_idx is not None and category_idx < len(row):
-                category = clean_cell(row[category_idx])
+            if type_idx is not None and type_idx < len(row):
+                explicit_type = clean_cell(row[type_idx])
+                if explicit_type:
+                    badge_type = detect_badge_type(explicit_type + " " + row_text)
 
             courses.append({
                 "title": title,
-                "level": level,
-                "category": category or sheet_name,
                 "sheet": sheet_name,
-                "isSkillBadge": detect_skill_badge(row_text) or detect_skill_badge(badge_text),
-                "isCompletionBadge": detect_completion_badge(row_text) or detect_completion_badge(badge_text)
+                "level": level,
+                "type": badge_type,
+                "isBadge": badge_type == "Badge",
+                "isSkillBadge": badge_type == "Skill Badge"
             })
 
         return courses
@@ -209,29 +189,31 @@ def extract_courses_from_rows(sheet_name: str, rows):
         cells = [clean_cell(c) for c in row]
         row_text = " ".join(cells)
 
-        candidate_title = ""
+        title = ""
 
         for cell in cells:
             if is_probably_course_title(cell):
-                candidate_title = cell
+                title = cell
                 break
 
-        if not candidate_title:
+        if not title:
             continue
+
+        badge_type = detect_badge_type(row_text)
 
         level = ""
         for cell in cells:
-            if cell in ["초급", "중급", "상급"]:
+            if cell in ["초급", "중급", "상급", "Beginner", "Intermediate", "Advanced"]:
                 level = cell
                 break
 
         courses.append({
-            "title": candidate_title,
-            "level": level,
-            "category": sheet_name,
+            "title": title,
             "sheet": sheet_name,
-            "isSkillBadge": detect_skill_badge(row_text),
-            "isCompletionBadge": detect_completion_badge(row_text)
+            "level": level,
+            "type": badge_type,
+            "isBadge": badge_type == "Badge",
+            "isSkillBadge": badge_type == "Skill Badge"
         })
 
     return courses
@@ -245,12 +227,8 @@ def load_courses_from_google_sheet(config):
     seen = set()
 
     for sheet_name in target_sheets:
-        print(f"Loading sheet: {sheet_name}")
-
         rows = fetch_sheet_csv(spreadsheet_id, sheet_name)
         courses = extract_courses_from_rows(sheet_name, rows)
-
-        print(f"  found courses: {len(courses)}")
 
         for course in courses:
             key = normalize(course["title"])
@@ -324,16 +302,13 @@ def main():
     courses = load_courses_from_google_sheet(config)
 
     total_courses = len(courses)
+    total_badges = sum(1 for c in courses if c["isBadge"])
     total_skill_badges = sum(1 for c in courses if c["isSkillBadge"])
-    total_completion_badges = sum(1 for c in courses if c["isCompletionBadge"])
-    total_normal_courses = total_courses - total_skill_badges
 
-    results = []
+    students = []
 
     for profile in profiles:
         try:
-            print(f"Loading profile: {profile['url']}")
-
             raw = extract_profile(profile["url"])
 
             earned_titles = {
@@ -341,11 +316,10 @@ def main():
                 for item in raw["earnedItems"]
             }
 
-            course_status = []
+            completed_courses = []
             completed_count = 0
-            completed_skill_badge_count = 0
-            completed_completion_badge_count = 0
-            completed_normal_count = 0
+            badge_count = 0
+            skill_badge_count = 0
 
             for course in courses:
                 key = normalize(course["title"])
@@ -354,73 +328,65 @@ def main():
                 if completed:
                     completed_count += 1
 
+                    if course["isBadge"]:
+                        badge_count += 1
+
                     if course["isSkillBadge"]:
-                        completed_skill_badge_count += 1
-                    else:
-                        completed_normal_count += 1
+                        skill_badge_count += 1
 
-                    if course["isCompletionBadge"]:
-                        completed_completion_badge_count += 1
-
-                course_status.append({
+                completed_courses.append({
                     "title": course["title"],
-                    "level": course["level"],
-                    "category": course["category"],
                     "sheet": course["sheet"],
+                    "level": course["level"],
+                    "type": course["type"],
+                    "isBadge": course["isBadge"],
                     "isSkillBadge": course["isSkillBadge"],
-                    "isCompletionBadge": course["isCompletionBadge"],
                     "completed": completed,
                     "earnedDate": earned_titles[key]["earnedDate"] if completed else None
                 })
 
-            completion_rate = 0
-            if total_courses > 0:
-                completion_rate = round(completed_count / total_courses * 100, 1)
-
-            results.append({
+            students.append({
                 "id": profile["id"],
                 "name": raw["name"],
                 "url": raw["url"],
                 "league": raw["league"],
                 "points": raw["points"],
                 "completedCount": completed_count,
-                "totalCount": total_courses,
-                "completedNormalCount": completed_normal_count,
-                "totalNormalCount": total_normal_courses,
-                "completedSkillBadgeCount": completed_skill_badge_count,
-                "totalSkillBadgeCount": total_skill_badges,
-                "completedCompletionBadgeCount": completed_completion_badge_count,
-                "totalCompletionBadgeCount": total_completion_badges,
-                "completionRate": completion_rate,
-                "courses": course_status,
-                "allEarnedItems": raw["earnedItems"]
+                "badgeCount": badge_count,
+                "skillBadgeCount": skill_badge_count,
+                "totalCourses": total_courses,
+                "totalBadges": total_badges,
+                "totalSkillBadges": total_skill_badges,
+                "completionRate": round(completed_count / total_courses * 100, 1) if total_courses else 0,
+                "courses": completed_courses
             })
 
             time.sleep(1)
 
         except Exception as e:
-            results.append({
+            students.append({
                 "id": profile["id"],
-                "name": "수집 실패",
+                "name": "Fetch Failed",
                 "url": profile["url"],
-                "error": str(e),
+                "league": "",
+                "points": 0,
                 "completedCount": 0,
-                "totalCount": total_courses,
-                "completedNormalCount": 0,
-                "totalNormalCount": total_normal_courses,
-                "completedSkillBadgeCount": 0,
-                "totalSkillBadgeCount": total_skill_badges,
-                "completedCompletionBadgeCount": 0,
-                "totalCompletionBadgeCount": total_completion_badges,
+                "badgeCount": 0,
+                "skillBadgeCount": 0,
+                "totalCourses": total_courses,
+                "totalBadges": total_badges,
+                "totalSkillBadges": total_skill_badges,
                 "completionRate": 0,
+                "error": str(e),
                 "courses": []
             })
 
-    results.sort(
+    students.sort(
         key=lambda x: (
-            x.get("completedCount", 0),
-            x.get("completedSkillBadgeCount", 0),
-            x.get("points", 0)
+            x["skillBadgeCount"],
+            x["badgeCount"],
+            x["completedCount"],
+            x["points"]
         ),
         reverse=True
     )
@@ -429,11 +395,10 @@ def main():
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "spreadsheetId": config["spreadsheetId"],
         "totalCourses": total_courses,
-        "totalNormalCourses": total_normal_courses,
+        "totalBadges": total_badges,
         "totalSkillBadges": total_skill_badges,
-        "totalCompletionBadges": total_completion_badges,
-        "courses": courses,
-        "students": results
+        "students": students,
+        "courses": courses
     }
 
     DATA_DIR.mkdir(exist_ok=True)
@@ -442,10 +407,10 @@ def main():
         encoding="utf-8"
     )
 
-    print(f"Loaded courses: {total_courses}")
-    print(f"Skill Badges: {total_skill_badges}")
-    print(f"Completion Badges: {total_completion_badges}")
     print(f"Saved: {OUTPUT_FILE}")
+    print(f"Courses: {total_courses}")
+    print(f"Badges: {total_badges}")
+    print(f"Skill Badges: {total_skill_badges}")
 
 
 if __name__ == "__main__":
