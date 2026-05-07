@@ -1,0 +1,26 @@
+{
+  "officialRewards": [
+    {
+      "title": "Official Reward Tier 1",
+      "description": "Earn 10 or more badges, including at least 6 skill badges.",
+      "minCompleted": 10,
+      "minSkillBadges": 6,
+      "items": ["Sticker", "Google Badge Set", "T-shirt"]
+    },
+    {
+      "title": "Official Reward Tier 2",
+      "description": "Earn 18 or more badges, including at least 9 skill badges.",
+      "minCompleted": 18,
+      "minSkillBadges": 9,
+      "items": ["Sticker", "Google Badge Set", "T-shirt", "Windbreaker"]
+    },
+    {
+      "title": "Official Reward Tier 3",
+      "description": "Earn 32 or more badges, including at least 16 skill badges.",
+      "minCompleted": 32,
+      "minSkillBadges": 16,
+      "items": ["Sticker", "Google Badge Set", "T-shirt", "Windbreaker", "Backpack"]
+    }
+  ],
+  "customRewards": []
+}
