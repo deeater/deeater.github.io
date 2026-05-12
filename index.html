@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Google Skills Leaderboard</title>
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,6 +18,7 @@
           Track each participant's completion badges, skill badges, and overall progress.
         </p>
       </div>
+
       <div class="hero-meta" id="updatedAtBox">
         <span class="meta-label">Last Updated</span>
         <strong id="updatedAt">Loading...</strong>
@@ -23,20 +26,26 @@
     </header>
 
     <main class="content">
-      <section class="panel" id="summaryPanel">
+      <section class="panel notice-panel" id="noticePanel">
         <div class="panel-header">
-          <h2>Overview</h2>
-          <p>A summary of the current leaderboard status.</p>
+          <h2>Course Guide</h2>
+          <p>
+            Recommended courses are listed in the
+            <a
+              href="https://docs.google.com/spreadsheets/d/1BNecy6MtlhD0y217kmqb5I7zP6Yk_94aWHwYdaBbF0k/edit?gid=1889116077#gid=1889116077"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Google Sheet</a>.
+            You may still complete courses that are not listed in the Google Sheet and remain eligible for rewards.
+            However, courses not listed in the Google Sheet will not be counted on this leaderboard.
+          </p>
         </div>
-        <div class="summary-grid" id="summaryGrid"></div>
       </section>
 
       <section class="panel" id="rewardPanel">
         <div class="panel-header">
           <h2>Rewards</h2>
-          <p>
-            Official reward tiers are shown below. You can also add your own custom rewards.
-          </p>
+          <p>Official and custom reward tiers.</p>
         </div>
 
         <div class="reward-section">
@@ -51,9 +60,11 @@
       </section>
 
       <section class="panel" id="leaderboardPanel">
-        <div class="panel-header">
-          <h2>Leaderboard</h2>
-          <p>The table shows completion badges first, followed by skill badges and total completions.</p>
+        <div class="panel-header leaderboard-header">
+          <div>
+            <h2>Leaderboard</h2>
+            <p>Completion badges, skill badges, and total tracked progress.</p>
+          </div>
         </div>
 
         <div class="table-wrap">
@@ -61,10 +72,10 @@
             <thead>
               <tr>
                 <th>Rank</th>
-                <th>Name</th>
-                <th>Completion Badges</th>
-                <th>Skill Badges</th>
-                <th>Total Completed</th>
+                <th>Participant</th>
+                <th>Completion</th>
+                <th>Skill</th>
+                <th>Total</th>
                 <th>Reward Status</th>
                 <th>Profile</th>
               </tr>
@@ -79,6 +90,7 @@
           <h2>Participant Details</h2>
           <p>Completed items are summarized by default. Use the button to expand the full list.</p>
         </div>
+
         <div class="student-list" id="studentList"></div>
       </section>
 
