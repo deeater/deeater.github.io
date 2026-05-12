@@ -40,9 +40,8 @@ async function init() {
     const rewards = normalizeRewards(rewardsConfig);
 
     renderUpdatedAt(leaderboard.updatedAt);
-    renderSummary(leaderboard);
     renderRewards(rewards);
-    renderLeaderboard(leaderboard.students || [], rewards);
+    renderLeaderboard(leaderboard.students || [], rewards, leaderboard);
     renderStudents(leaderboard.students || [], rewards);
   } catch (error) {
     showError(error);
@@ -56,9 +55,11 @@ function withBust(url) {
 async function fetchJson(url, fallback = null) {
   try {
     const response = await fetch(url, { cache: "no-store" });
+
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
+
     return await response.json();
   } catch (error) {
     if (fallback !== null) return fallback;
@@ -79,6 +80,7 @@ function normalizeRewards(config) {
     if ((a.minCompleted || 0) !== (b.minCompleted || 0)) {
       return (a.minCompleted || 0) - (b.minCompleted || 0);
     }
+
     return (a.minSkillBadges || 0) - (b.minSkillBadges || 0);
   };
 
@@ -98,7 +100,7 @@ function renderUpdatedAt(updatedAt) {
 
   const date = new Date(updatedAt);
 
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     target.textContent = updatedAt;
     return;
   }
@@ -112,41 +114,6 @@ function renderUpdatedAt(updatedAt) {
   });
 }
 
-function renderSummary(data) {
-  const summaryGrid = document.getElementById("summaryGrid");
-  const students = Array.isArray(data.students) ? data.students : [];
-
-  const summaryItems = [
-    {
-      label: "Participants",
-      value: students.length
-    },
-    {
-      label: "Tracked Completion Badges",
-      value: data.totalBadges ?? 0
-    },
-    {
-      label: "Tracked Skill Badges",
-      value: data.totalSkillBadges ?? 0
-    },
-    {
-      label: "Total Tracked Items",
-      value: data.totalCourses ?? 0
-    }
-  ];
-
-  summaryGrid.innerHTML = summaryItems
-    .map(
-      (item) => `
-        <div class="summary-card">
-          <div class="label">${escapeHtml(String(item.label))}</div>
-          <div class="value">${escapeHtml(String(item.value))}</div>
-        </div>
-      `
-    )
-    .join("");
-}
-
 function renderRewards(rewards) {
   const officialWrap = document.getElementById("officialRewards");
   const customWrap = document.getElementById("customRewards");
@@ -158,12 +125,14 @@ function renderRewards(rewards) {
 
   if (!rewards.customRewards.length) {
     customSection.classList.add("hidden");
-  } else {
-    customSection.classList.remove("hidden");
-    customWrap.innerHTML = rewards.customRewards
-      .map((reward) => createRewardCard(reward, false))
-      .join("");
+    return;
   }
+
+  customSection.classList.remove("hidden");
+
+  customWrap.innerHTML = rewards.customRewards
+    .map((reward) => createRewardCard(reward, false))
+    .join("");
 }
 
 function createRewardCard(reward, isOfficial, officialIndex = 0) {
@@ -174,7 +143,8 @@ function createRewardCard(reward, isOfficial, officialIndex = 0) {
     <div class="reward-card ${klass}">
       <h4 class="reward-title">${escapeHtml(reward.title || "Reward")}</h4>
       <div class="reward-rule">
-        ${escapeHtml(String(reward.minCompleted || 0))}+ badges / ${escapeHtml(String(reward.minSkillBadges || 0))}+ skill badges
+        ${escapeHtml(String(reward.minCompleted || 0))}+ badges /
+        ${escapeHtml(String(reward.minSkillBadges || 0))}+ skill badges
       </div>
       ${reward.description ? `<p>${escapeHtml(reward.description)}</p>` : ""}
       <ul class="reward-items">
@@ -184,30 +154,59 @@ function createRewardCard(reward, isOfficial, officialIndex = 0) {
   `;
 }
 
-function renderLeaderboard(students, rewards) {
+function renderLeaderboard(students, rewards, leaderboard) {
   const tbody = document.getElementById("leaderboardTableBody");
   const allRewards = [...rewards.officialRewards, ...rewards.customRewards];
+
+  const totalBadges = leaderboard?.totalBadges ?? 0;
+  const totalSkillBadges = leaderboard?.totalSkillBadges ?? 0;
+  const totalCourses = leaderboard?.totalCourses ?? 0;
 
   tbody.innerHTML = students
     .map((student, index) => {
       const rewardState = getRewardState(student, allRewards);
 
       return `
-        <tr>
-          <td><span class="rank-badge">${index + 1}</span></td>
+        <tr class="leaderboard-row">
+          <td class="rank-cell">
+            <span class="rank-badge">${index + 1}</span>
+          </td>
+
           <td class="name-cell">
             <strong>${escapeHtml(student.name || "Unknown")}</strong>
+            <span class="participant-sub">
+              ${escapeHtml(student.league || "No league data")}
+            </span>
           </td>
-          <td><span class="value-pill general">${student.badgeCount ?? 0}</span></td>
-          <td><span class="value-pill skill">${student.skillBadgeCount ?? 0}</span></td>
-          <td><span class="value-pill total">${student.completedCount ?? 0}</span></td>
-          <td>
+
+          <td class="score-cell">
+            <span class="score-main">${student.badgeCount ?? 0}</span>
+            <span class="score-sub">/ ${totalBadges}</span>
+          </td>
+
+          <td class="score-cell">
+            <span class="score-main skill">${student.skillBadgeCount ?? 0}</span>
+            <span class="score-sub">/ ${totalSkillBadges}</span>
+          </td>
+
+          <td class="score-cell">
+            <span class="score-main total">${student.completedCount ?? 0}</span>
+            <span class="score-sub">/ ${totalCourses}</span>
+          </td>
+
+          <td class="reward-cell">
             <span class="reward-status">${escapeHtml(rewardState.title)}</span>
             <span class="reward-subtext">${escapeHtml(rewardState.subtext)}</span>
           </td>
-          <td>
-            <a class="profile-link" href="${escapeAttribute(student.url || "#")}" target="_blank" rel="noopener noreferrer">
-              View Profile
+
+          <td class="profile-cell">
+            <a
+              class="profile-link"
+              href="${escapeAttribute(student.url || "#")}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View
             </a>
           </td>
         </tr>
@@ -226,7 +225,7 @@ function renderStudents(students, rewards) {
       const generalCourses = completedCourses.filter((course) => !course.isSkillBadge);
       const skillCourses = completedCourses.filter((course) => course.isSkillBadge);
 
-      const previewItems = completedCourses.slice(0, 6);
+      const previewItems = completedCourses.slice(0, 5);
       const extraCount = completedCourses.length - previewItems.length;
       const rewardState = getRewardState(student, allRewards);
 
@@ -266,15 +265,27 @@ function renderStudents(students, rewards) {
             <div class="student-title-wrap">
               <h3>${escapeHtml(student.name || "Unknown")}</h3>
               <div class="student-meta">
-                <a href="${escapeAttribute(student.url || "#")}" target="_blank" rel="noopener noreferrer">Open Public Profile</a>
+                <a
+                  href="${escapeAttribute(student.url || "#")}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open Public Profile
+                </a>
               </div>
             </div>
           </div>
 
           <div class="student-stats">
-            <div class="stat-chip general">Completion Badges <strong>${student.badgeCount ?? 0}</strong></div>
-            <div class="stat-chip skill">Skill Badges <strong>${student.skillBadgeCount ?? 0}</strong></div>
-            <div class="stat-chip total">Total Completed <strong>${student.completedCount ?? 0}</strong></div>
+            <div class="stat-chip general">
+              Completion <strong>${student.badgeCount ?? 0}</strong>
+            </div>
+            <div class="stat-chip skill">
+              Skill <strong>${student.skillBadgeCount ?? 0}</strong>
+            </div>
+            <div class="stat-chip total">
+              Total <strong>${student.completedCount ?? 0}</strong>
+            </div>
           </div>
 
           <div class="current-reward-box">
@@ -341,6 +352,7 @@ function bindToggleButtons() {
     button.addEventListener("click", () => {
       const cardId = button.getAttribute("data-card-id");
       const card = document.getElementById(cardId);
+
       if (!card) return;
 
       const expanded = card.classList.toggle("expanded");
@@ -364,6 +376,7 @@ function getRewardState(student, rewards) {
     if ((a.minCompleted || 0) !== (b.minCompleted || 0)) {
       return (a.minCompleted || 0) - (b.minCompleted || 0);
     }
+
     return (a.minSkillBadges || 0) - (b.minSkillBadges || 0);
   });
 
@@ -375,9 +388,10 @@ function getRewardState(student, rewards) {
 
   if (unlocked.length) {
     const current = unlocked[unlocked.length - 1];
+
     return {
       title: `${current.title} Achieved`,
-      subtext: `${completedCount} total completed / ${skillBadgeCount} skill badges`
+      subtext: `${completedCount} total / ${skillBadgeCount} skill badges`
     };
   }
 
@@ -387,7 +401,7 @@ function getRewardState(student, rewards) {
 
   return {
     title: "No reward achieved yet",
-    subtext: `${remainCompleted} more total completions and ${remainSkill} more skill badges needed for ${next.title}`
+    subtext: `${remainCompleted} more total and ${remainSkill} more skill badges needed`
   };
 }
 
