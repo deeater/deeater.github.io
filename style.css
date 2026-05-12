@@ -10,12 +10,8 @@
   --blue-dark: #3730a3;
   --blue-soft: #eef2ff;
 
-  --yellow: #ca8a04;
   --yellow-soft: #fff7d6;
-
-  --pink: #be185d;
   --pink-soft: #fde7f3;
-
   --green-soft: #eaf8ea;
 
   --shadow: 0 10px 24px rgba(17, 24, 39, 0.05);
@@ -24,7 +20,6 @@
   --radius-xl: 22px;
   --radius-lg: 16px;
   --radius-md: 12px;
-  --radius-sm: 9px;
 }
 
 * {
@@ -70,9 +65,7 @@ button {
   padding: 28px 20px 56px;
 }
 
-/* ============================================================
-   Hero
-============================================================ */
+/* Hero */
 
 .hero {
   display: flex;
@@ -128,9 +121,7 @@ button {
   font-size: 14px;
 }
 
-/* ============================================================
-   Base Panels
-============================================================ */
+/* Panels */
 
 .content {
   display: grid;
@@ -162,45 +153,26 @@ button {
   font-size: 14px;
 }
 
+.notice-panel {
+  background: #ffffff;
+}
+
+.notice-panel .panel-header {
+  margin-bottom: 0;
+}
+
+.notice-panel p {
+  max-width: 920px;
+  line-height: 1.6;
+}
+
 .subheading {
   margin: 0 0 10px;
   font-size: 18px;
   letter-spacing: -0.02em;
 }
 
-/* ============================================================
-   Summary
-============================================================ */
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.summary-card {
-  background: var(--panel-soft);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-}
-
-.summary-card .label {
-  color: var(--muted);
-  font-size: 13px;
-  margin-bottom: 7px;
-}
-
-.summary-card .value {
-  font-size: 28px;
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-}
-
-/* ============================================================
-   Rewards - Desktop
-============================================================ */
+/* Rewards */
 
 .reward-section + .reward-section {
   margin-top: 20px;
@@ -270,9 +242,7 @@ button {
   margin-top: 3px;
 }
 
-/* ============================================================
-   Leaderboard - Desktop Table
-============================================================ */
+/* Leaderboard */
 
 .table-wrap {
   overflow-x: auto;
@@ -284,7 +254,7 @@ button {
 .leaderboard-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 900px;
+  min-width: 920px;
   background: #fff;
 }
 
@@ -295,19 +265,29 @@ button {
 .leaderboard-table th,
 .leaderboard-table td {
   text-align: left;
-  padding: 15px 13px;
+  padding: 14px 13px;
   border-bottom: 1px solid var(--line);
   vertical-align: middle;
 }
 
 .leaderboard-table th {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
-  font-weight: 800;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .leaderboard-table tr:last-child td {
   border-bottom: none;
+}
+
+.leaderboard-row:hover {
+  background: #fafafa;
+}
+
+.rank-cell {
+  width: 72px;
 }
 
 .rank-badge {
@@ -328,33 +308,39 @@ button {
   font-size: 15px;
 }
 
-.value-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 66px;
-  padding: 7px 11px;
-  border-radius: 999px;
-  font-weight: 900;
-  font-size: 13px;
+.participant-sub {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
 }
 
-.value-pill.general {
-  background: #f3f4f6;
+.score-cell {
+  white-space: nowrap;
+}
+
+.score-main {
+  font-size: 20px;
+  font-weight: 900;
   color: #111827;
 }
 
-.value-pill.skill {
-  background: #fef3c7;
+.score-main.skill {
   color: #92400e;
 }
 
-.value-pill.total {
-  background: #e0f2fe;
+.score-main.total {
   color: #075985;
 }
 
+.score-sub {
+  margin-left: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .reward-status {
+  display: block;
   font-size: 13px;
   color: var(--text);
   font-weight: 800;
@@ -381,9 +367,7 @@ button {
   font-size: 13px;
 }
 
-/* ============================================================
-   Student Details
-============================================================ */
+/* Student Details */
 
 .student-list {
   display: grid;
@@ -609,9 +593,7 @@ button {
   font-weight: 700;
 }
 
-/* ============================================================
-   Tablet
-============================================================ */
+/* Tablet */
 
 @media (max-width: 980px) {
   .page-shell {
@@ -626,18 +608,12 @@ button {
     width: 100%;
   }
 
-  .summary-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .reward-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* ============================================================
-   Mobile Strong Layout
-============================================================ */
+/* Mobile */
 
 @media (max-width: 720px) {
   .page-shell {
@@ -704,37 +680,17 @@ button {
     line-height: 1.4;
   }
 
-  .summary-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .summary-card {
-    padding: 11px;
-    border-radius: 13px;
-  }
-
-  .summary-card .label {
-    font-size: 11px;
-    margin-bottom: 5px;
-  }
-
-  .summary-card .value {
-    font-size: 22px;
-  }
-
-  /* Reward compact mobile */
-  #rewardPanel {
-    padding-bottom: 12px;
-  }
-
-  .reward-section + .reward-section {
-    margin-top: 14px;
+  .notice-panel p {
+    line-height: 1.5;
   }
 
   .subheading {
     font-size: 15px;
     margin-bottom: 8px;
+  }
+
+  .reward-section + .reward-section {
+    margin-top: 14px;
   }
 
   .reward-grid {
@@ -788,7 +744,6 @@ button {
     font-weight: 700;
   }
 
-  /* Leaderboard mobile: compact ranking cards */
   .table-wrap {
     overflow: visible;
     border: none;
@@ -828,16 +783,15 @@ button {
     padding: 0;
   }
 
-  /* Hide label style from previous CSS */
   .leaderboard-table td::before {
     content: none !important;
   }
 
-  /* Rank */
-  .leaderboard-table td:nth-child(1) {
+  .rank-cell {
     position: absolute;
     left: 12px;
     top: 12px;
+    width: auto;
   }
 
   .rank-badge {
@@ -847,10 +801,8 @@ button {
     font-size: 13px;
   }
 
-  /* Name */
-  .leaderboard-table td:nth-child(2) {
-    padding-left: 42px;
-    padding-right: 0;
+  .name-cell {
+    padding-left: 42px !important;
     margin-bottom: 10px;
   }
 
@@ -860,57 +812,43 @@ button {
     word-break: break-word;
   }
 
-  /* Completion badges, Skill badges, Total */
-  .leaderboard-table td:nth-child(3),
-  .leaderboard-table td:nth-child(4),
-  .leaderboard-table td:nth-child(5) {
-    display: inline-flex;
-    margin-right: 5px;
+  .participant-sub {
+    font-size: 11px;
+  }
+
+  .score-cell {
+    display: inline-flex !important;
+    align-items: baseline;
+    margin-right: 8px;
     margin-bottom: 8px;
+    padding: 5px 8px !important;
+    border-radius: 999px;
+    background: #f9fafb;
   }
 
-  .leaderboard-table td:nth-child(3)::after {
-    content: " Completion";
-    font-size: 11px;
-    color: var(--muted);
-    margin-left: 5px;
-    align-self: center;
-    font-weight: 700;
+  .score-main {
+    font-size: 15px;
   }
 
-  .leaderboard-table td:nth-child(4)::after {
-    content: " Skill";
-    font-size: 11px;
-    color: var(--muted);
-    margin-left: 5px;
-    align-self: center;
-    font-weight: 700;
+  .score-sub {
+    font-size: 10px;
   }
 
-  .leaderboard-table td:nth-child(5)::after {
-    content: " Total";
-    font-size: 11px;
-    color: var(--muted);
-    margin-left: 5px;
-    align-self: center;
-    font-weight: 700;
+  .score-cell:nth-of-type(4) {
+    background: #fffbeb;
   }
 
-  .value-pill {
-    min-width: 40px;
-    padding: 5px 8px;
-    font-size: 12px;
+  .score-cell:nth-of-type(5) {
+    background: #eff6ff;
   }
 
-  /* Reward */
-  .leaderboard-table td:nth-child(6) {
+  .reward-cell {
     margin-top: 2px;
-    padding-top: 8px;
-    border-top: 1px solid var(--line);
+    padding-top: 8px !important;
+    border-top: 1px solid var(--line) !important;
   }
 
   .reward-status {
-    display: block;
     font-size: 12px;
     line-height: 1.25;
   }
@@ -920,8 +858,7 @@ button {
     line-height: 1.3;
   }
 
-  /* Profile */
-  .leaderboard-table td:nth-child(7) {
+  .profile-cell {
     margin-top: 8px;
   }
 
@@ -933,7 +870,6 @@ button {
     padding: 8px 10px;
   }
 
-  /* Student details compact */
   .student-list {
     gap: 10px;
   }
@@ -1061,10 +997,6 @@ button {
   }
 }
 
-/* ============================================================
-   Very Small Mobile
-============================================================ */
-
 @media (max-width: 390px) {
   .page-shell {
     padding: 8px 6px 30px;
@@ -1096,10 +1028,6 @@ button {
     font-size: 11px;
   }
 
-  .summary-card .value {
-    font-size: 20px;
-  }
-
   .reward-title {
     font-size: 13px;
   }
@@ -1115,8 +1043,8 @@ button {
     border-radius: 13px;
   }
 
-  .leaderboard-table td:nth-child(2) {
-    padding-left: 38px;
+  .name-cell {
+    padding-left: 38px !important;
   }
 
   .rank-badge {
