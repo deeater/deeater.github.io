@@ -41,7 +41,7 @@ async function init() {
 
     renderUpdatedAt(leaderboard.updatedAt);
     renderRewards(rewards);
-    renderLeaderboard(leaderboard.students || [], rewards, leaderboard);
+    renderLeaderboard(leaderboard.students || [], rewards);
     renderStudents(leaderboard.students || [], rewards);
   } catch (error) {
     showError(error);
@@ -154,13 +154,9 @@ function createRewardCard(reward, isOfficial, officialIndex = 0) {
   `;
 }
 
-function renderLeaderboard(students, rewards, leaderboard) {
+function renderLeaderboard(students, rewards) {
   const tbody = document.getElementById("leaderboardTableBody");
   const allRewards = [...rewards.officialRewards, ...rewards.customRewards];
-
-  const totalBadges = leaderboard?.totalBadges ?? 0;
-  const totalSkillBadges = leaderboard?.totalSkillBadges ?? 0;
-  const totalCourses = leaderboard?.totalCourses ?? 0;
 
   tbody.innerHTML = students
     .map((student, index) => {
@@ -181,17 +177,14 @@ function renderLeaderboard(students, rewards, leaderboard) {
 
           <td class="score-cell">
             <span class="score-main">${student.badgeCount ?? 0}</span>
-            <span class="score-sub">/ ${totalBadges}</span>
           </td>
 
           <td class="score-cell">
             <span class="score-main skill">${student.skillBadgeCount ?? 0}</span>
-            <span class="score-sub">/ ${totalSkillBadges}</span>
           </td>
 
           <td class="score-cell">
             <span class="score-main total">${student.completedCount ?? 0}</span>
-            <span class="score-sub">/ ${totalCourses}</span>
           </td>
 
           <td class="reward-cell">
