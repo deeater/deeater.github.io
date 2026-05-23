@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-23T10:56:14.324796+00:00",
+  "updatedAt": "2026-05-23T12:02:08.093464+00:00",
   "spreadsheetId": "1BNecy6MtlhD0y217kmqb5I7zP6Yk_94aWHwYdaBbF0k",
   "totalCourses": 218,
   "totalBadges": 160,
@@ -10,14 +10,14 @@
       "name": "Eiley  Woo",
       "url": "https://www.skills.google/public_profiles/8f93f145-5098-48c1-b39b-3ff2367d1f38",
       "league": "Diamond League",
-      "points": 3280,
-      "completedCount": 17,
-      "badgeCount": 17,
+      "points": 3340,
+      "completedCount": 18,
+      "badgeCount": 18,
       "skillBadgeCount": 0,
       "totalCourses": 218,
       "totalBadges": 160,
       "totalSkillBadges": 58,
-      "completionRate": 7.8,
+      "completionRate": 8.3,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -56,8 +56,8 @@
           "type": "Badge",
           "isSkillBadge": false,
           "isBadge": true,
-          "completed": false,
-          "earnedDate": null
+          "completed": true,
+          "earnedDate": "May 23, 2026 EDT"
         },
         {
           "title": "Introduction to AI and Machine Learning on Google Cloud",
@@ -2202,6 +2202,10 @@
       ],
       "allEarnedItems": [
         {
+          "title": "Introduction to Responsible AI",
+          "earnedDate": "May 23, 2026 EDT"
+        },
+        {
           "title": "Introduction to Image Generation",
           "earnedDate": "May 23, 2026 EDT"
         },
@@ -2249,6 +2253,7 @@
       "debugMatchedTitles": [
         "Introduction to Large Language Models",
         "Introduction to Image Generation",
+        "Introduction to Responsible AI",
         "Google Chat",
         "Conversation Design Fundamentals",
         "Gemini in Google Drive",
@@ -11303,14 +11308,14 @@
       "name": "Eugenia Seong",
       "url": "https://www.skills.google/public_profiles/78e97dac-9550-4bb8-bf1a-01e11f99b86a",
       "league": "Gold League",
-      "points": 1674,
-      "completedCount": 12,
-      "badgeCount": 12,
+      "points": 1734,
+      "completedCount": 13,
+      "badgeCount": 13,
       "skillBadgeCount": 0,
       "totalCourses": 218,
       "totalBadges": 160,
       "totalSkillBadges": 58,
-      "completionRate": 5.5,
+      "completionRate": 6.0,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -11349,8 +11354,8 @@
           "type": "Badge",
           "isSkillBadge": false,
           "isBadge": true,
-          "completed": false,
-          "earnedDate": null
+          "completed": true,
+          "earnedDate": "May 23, 2026 EDT"
         },
         {
           "title": "Introduction to AI and Machine Learning on Google Cloud",
@@ -13495,6 +13500,10 @@
       ],
       "allEarnedItems": [
         {
+          "title": "Introduction to Responsible AI",
+          "earnedDate": "May 23, 2026 EDT"
+        },
+        {
           "title": "Introduction to Image Generation",
           "earnedDate": "May 23, 2026 EDT"
         },
@@ -13535,6 +13544,7 @@
         "Introduction to Generative AI",
         "Introduction to Large Language Models",
         "Introduction to Image Generation",
+        "Introduction to Responsible AI",
         "Google Chat",
         "Conversation Design Fundamentals",
         "Gemini in Google Drive",
