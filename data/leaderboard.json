@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-31T01:55:27.168377+00:00",
+  "updatedAt": "2026-05-31T06:21:41.876113+00:00",
   "spreadsheetId": "1BNecy6MtlhD0y217kmqb5I7zP6Yk_94aWHwYdaBbF0k",
   "totalCourses": 218,
   "totalBadges": 160,
@@ -10,7 +10,7 @@
       "name": "Eiley  Woo",
       "url": "https://www.skills.google/public_profiles/8f93f145-5098-48c1-b39b-3ff2367d1f38",
       "league": "Diamond League",
-      "points": 3340,
+      "points": 3380,
       "completedCount": 18,
       "badgeCount": 18,
       "skillBadgeCount": 0,
@@ -2276,7 +2276,7 @@
       "name": "Yuna Park",
       "url": "https://www.skills.google/public_profiles/60b9ba92-fcf7-44c8-ad48-69fd533194cc",
       "league": "Gold League",
-      "points": 2656,
+      "points": 2732,
       "completedCount": 17,
       "badgeCount": 17,
       "skillBadgeCount": 0,
@@ -4467,6 +4467,10 @@
         }
       ],
       "allEarnedItems": [
+        {
+          "title": "Streamline App Development with Gemini Code Assist",
+          "earnedDate": "May 30, 2026 EDT"
+        },
         {
           "title": "Gemini in Google Meet",
           "earnedDate": "Apr 18, 2026 EDT"
@@ -6798,7 +6802,7 @@
       "name": "Elena Choi",
       "url": "https://www.skills.google/public_profiles/4fd0b323-7889-4ad0-88a7-335c30ea46ad",
       "league": "Gold League",
-      "points": 2490,
+      "points": 2550,
       "completedCount": 15,
       "badgeCount": 15,
       "skillBadgeCount": 0,
@@ -8990,6 +8994,10 @@
       ],
       "allEarnedItems": [
         {
+          "title": "Streamline App Development with Gemini Code Assist",
+          "earnedDate": "May 31, 2026 EDT"
+        },
+        {
           "title": "Gemini in Google Meet",
           "earnedDate": "Apr 25, 2026 EDT"
         },
@@ -9053,7 +9061,7 @@
       "name": "Alice Lee",
       "url": "https://www.skills.google/public_profiles/bab8bf26-737b-4422-b918-a552d1803a6c",
       "league": "Gold League",
-      "points": 2144,
+      "points": 2184,
       "completedCount": 15,
       "badgeCount": 15,
       "skillBadgeCount": 0,
