@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-01T10:14:03.422001+00:00",
+  "updatedAt": "2026-07-01T13:13:24.627967+00:00",
   "spreadsheetId": "1BNecy6MtlhD0y217kmqb5I7zP6Yk_94aWHwYdaBbF0k",
   "totalCourses": 218,
   "totalBadges": 160,
@@ -11,13 +11,13 @@
       "url": "https://www.skills.google/public_profiles/8f93f145-5098-48c1-b39b-3ff2367d1f38",
       "league": "Gold League",
       "points": 3380,
-      "completedCount": 18,
-      "badgeCount": 18,
+      "completedCount": 17,
+      "badgeCount": 17,
       "skillBadgeCount": 0,
       "totalCourses": 218,
       "totalBadges": 160,
       "totalSkillBadges": 58,
-      "completionRate": 8.3,
+      "completionRate": 7.8,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -336,8 +336,8 @@
           "type": "Badge",
           "isSkillBadge": false,
           "isBadge": true,
-          "completed": true,
-          "earnedDate": "Apr 18, 2026 EDT"
+          "completed": false,
+          "earnedDate": null
         },
         {
           "title": "Gemini in Gmail",
@@ -2230,7 +2230,7 @@
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
-          "title": "Introduction to Google Workspace with Gemini",
+          "title": "Google Workspace with Gemini: Foundations of Your AI Workflow",
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
@@ -2257,7 +2257,6 @@
         "Google Chat",
         "Conversation Design Fundamentals",
         "Gemini in Google Drive",
-        "Introduction to Google Workspace with Gemini",
         "Gemini in Gmail",
         "Gemini in Google Sheets",
         "Gemini in Google Docs",
@@ -2277,13 +2276,13 @@
       "url": "https://www.skills.google/public_profiles/60b9ba92-fcf7-44c8-ad48-69fd533194cc",
       "league": "Gold League",
       "points": 2732,
-      "completedCount": 17,
-      "badgeCount": 17,
+      "completedCount": 16,
+      "badgeCount": 16,
       "skillBadgeCount": 0,
       "totalCourses": 218,
       "totalBadges": 160,
       "totalSkillBadges": 58,
-      "completionRate": 7.8,
+      "completionRate": 7.3,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -2602,8 +2601,8 @@
           "type": "Badge",
           "isSkillBadge": false,
           "isBadge": true,
-          "completed": true,
-          "earnedDate": "Apr 18, 2026 EDT"
+          "completed": false,
+          "earnedDate": null
         },
         {
           "title": "Gemini in Gmail",
@@ -4492,7 +4491,7 @@
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
-          "title": "Introduction to Google Workspace with Gemini",
+          "title": "Google Workspace with Gemini: Foundations of Your AI Workflow",
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
@@ -4522,7 +4521,6 @@
         "Google Chat",
         "Conversation Design Fundamentals",
         "Gemini in Google Drive",
-        "Introduction to Google Workspace with Gemini",
         "Gemini in Gmail",
         "Gemini in Google Sheets",
         "Gemini in Google Docs",
@@ -4542,13 +4540,13 @@
       "url": "https://www.skills.google/public_profiles/0e254583-f037-4daf-8e96-2372587b9d6e",
       "league": "Silver League",
       "points": 2574,
-      "completedCount": 17,
-      "badgeCount": 17,
+      "completedCount": 16,
+      "badgeCount": 16,
       "skillBadgeCount": 0,
       "totalCourses": 218,
       "totalBadges": 160,
       "totalSkillBadges": 58,
-      "completionRate": 7.8,
+      "completionRate": 7.3,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -4867,8 +4865,8 @@
           "type": "Badge",
           "isSkillBadge": false,
           "isBadge": true,
-          "completed": true,
-          "earnedDate": "Apr 18, 2026 EDT"
+          "completed": false,
+          "earnedDate": null
         },
         {
           "title": "Gemini in Gmail",
@@ -6749,7 +6747,7 @@
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
-          "title": "Introduction to Google Workspace with Gemini",
+          "title": "Google Workspace with Gemini: Foundations of Your AI Workflow",
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
@@ -6783,7 +6781,6 @@
         "Google Chat",
         "Conversation Design Fundamentals",
         "Gemini in Google Drive",
-        "Introduction to Google Workspace with Gemini",
         "Gemini in Gmail",
         "Gemini in Google Sheets",
         "Gemini in Google Docs",
@@ -6803,13 +6800,13 @@
       "url": "https://www.skills.google/public_profiles/4fd0b323-7889-4ad0-88a7-335c30ea46ad",
       "league": "Gold League",
       "points": 2550,
-      "completedCount": 15,
-      "badgeCount": 15,
+      "completedCount": 14,
+      "badgeCount": 14,
       "skillBadgeCount": 0,
       "totalCourses": 218,
       "totalBadges": 160,
       "totalSkillBadges": 58,
-      "completionRate": 6.9,
+      "completionRate": 6.4,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -7128,8 +7125,8 @@
           "type": "Badge",
           "isSkillBadge": false,
           "isBadge": true,
-          "completed": true,
-          "earnedDate": "Apr 18, 2026 EDT"
+          "completed": false,
+          "earnedDate": null
         },
         {
           "title": "Gemini in Gmail",
@@ -9010,7 +9007,7 @@
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
-          "title": "Introduction to Google Workspace with Gemini",
+          "title": "Google Workspace with Gemini: Foundations of Your AI Workflow",
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
@@ -9044,7 +9041,6 @@
         "Google Chat",
         "Conversation Design Fundamentals",
         "Gemini in Google Drive",
-        "Introduction to Google Workspace with Gemini",
         "Gemini in Gmail",
         "Gemini in Google Docs",
         "Gemini in Google Slides",
@@ -9062,13 +9058,13 @@
       "url": "https://www.skills.google/public_profiles/bab8bf26-737b-4422-b918-a552d1803a6c",
       "league": "Silver League",
       "points": 2184,
-      "completedCount": 15,
-      "badgeCount": 15,
+      "completedCount": 14,
+      "badgeCount": 14,
       "skillBadgeCount": 0,
       "totalCourses": 218,
       "totalBadges": 160,
       "totalSkillBadges": 58,
-      "completionRate": 6.9,
+      "completionRate": 6.4,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -9387,8 +9383,8 @@
           "type": "Badge",
           "isSkillBadge": false,
           "isBadge": true,
-          "completed": true,
-          "earnedDate": "Apr 18, 2026 EDT"
+          "completed": false,
+          "earnedDate": null
         },
         {
           "title": "Gemini in Gmail",
@@ -11269,7 +11265,7 @@
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
-          "title": "Introduction to Google Workspace with Gemini",
+          "title": "Google Workspace with Gemini: Foundations of Your AI Workflow",
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
@@ -11299,7 +11295,6 @@
         "Google Chat",
         "Conversation Design Fundamentals",
         "Gemini in Google Drive",
-        "Introduction to Google Workspace with Gemini",
         "Gemini in Gmail",
         "Gemini in Google Sheets",
         "Gemini in Google Docs",
@@ -11317,13 +11312,13 @@
       "url": "https://www.skills.google/public_profiles/78e97dac-9550-4bb8-bf1a-01e11f99b86a",
       "league": "Gold League",
       "points": 1734,
-      "completedCount": 13,
-      "badgeCount": 13,
+      "completedCount": 12,
+      "badgeCount": 12,
       "skillBadgeCount": 0,
       "totalCourses": 218,
       "totalBadges": 160,
       "totalSkillBadges": 58,
-      "completionRate": 6.0,
+      "completionRate": 5.5,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -11642,8 +11637,8 @@
           "type": "Badge",
           "isSkillBadge": false,
           "isBadge": true,
-          "completed": true,
-          "earnedDate": "Apr 18, 2026 EDT"
+          "completed": false,
+          "earnedDate": null
         },
         {
           "title": "Gemini in Gmail",
@@ -13524,7 +13519,7 @@
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
-          "title": "Introduction to Google Workspace with Gemini",
+          "title": "Google Workspace with Gemini: Foundations of Your AI Workflow",
           "earnedDate": "Apr 18, 2026 EDT"
         },
         {
@@ -13556,7 +13551,6 @@
         "Google Chat",
         "Conversation Design Fundamentals",
         "Gemini in Google Drive",
-        "Introduction to Google Workspace with Gemini",
         "Gemini in Gmail",
         "Gemini in Google Meet",
         "Gmail",
