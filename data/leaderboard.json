@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-07-26T23:10:10.120059+00:00",
+  "updatedAt": "2026-07-27T00:12:22.014787+00:00",
   "spreadsheetId": "1BNecy6MtlhD0y217kmqb5I7zP6Yk_94aWHwYdaBbF0k",
-  "totalCourses": 218,
+  "totalCourses": 217,
   "totalBadges": 160,
-  "totalSkillBadges": 58,
+  "totalSkillBadges": 57,
   "students": [
     {
       "id": "8f93f145-5098-48c1-b39b-3ff2367d1f38",
@@ -14,9 +14,9 @@
       "completedCount": 17,
       "badgeCount": 17,
       "skillBadgeCount": 0,
-      "totalCourses": 218,
+      "totalCourses": 217,
       "totalBadges": 160,
-      "totalSkillBadges": 58,
+      "totalSkillBadges": 57,
       "completionRate": 7.8,
       "courses": [
         {
@@ -1670,16 +1670,6 @@
           "earnedDate": null
         },
         {
-          "title": "Google DeepMind: Train A Small Language Model",
-          "sheet": "Gen AI Development",
-          "level": "상급",
-          "type": "Skill Badge",
-          "isSkillBadge": true,
-          "isBadge": false,
-          "completed": false,
-          "earnedDate": null
-        },
-        {
           "title": "Deploy Multi-Agent Architectures",
           "sheet": "Gen AI Development",
           "level": "상급",
@@ -2279,10 +2269,10 @@
       "completedCount": 16,
       "badgeCount": 16,
       "skillBadgeCount": 0,
-      "totalCourses": 218,
+      "totalCourses": 217,
       "totalBadges": 160,
-      "totalSkillBadges": 58,
-      "completionRate": 7.3,
+      "totalSkillBadges": 57,
+      "completionRate": 7.4,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -3928,16 +3918,6 @@
           "title": "Engineer AI Agents with Agent Development Kit (ADK)",
           "sheet": "Gen AI Development",
           "level": "중급",
-          "type": "Skill Badge",
-          "isSkillBadge": true,
-          "isBadge": false,
-          "completed": false,
-          "earnedDate": null
-        },
-        {
-          "title": "Google DeepMind: Train A Small Language Model",
-          "sheet": "Gen AI Development",
-          "level": "상급",
           "type": "Skill Badge",
           "isSkillBadge": true,
           "isBadge": false,
@@ -4543,10 +4523,10 @@
       "completedCount": 16,
       "badgeCount": 16,
       "skillBadgeCount": 0,
-      "totalCourses": 218,
+      "totalCourses": 217,
       "totalBadges": 160,
-      "totalSkillBadges": 58,
-      "completionRate": 7.3,
+      "totalSkillBadges": 57,
+      "completionRate": 7.4,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -6192,16 +6172,6 @@
           "title": "Engineer AI Agents with Agent Development Kit (ADK)",
           "sheet": "Gen AI Development",
           "level": "중급",
-          "type": "Skill Badge",
-          "isSkillBadge": true,
-          "isBadge": false,
-          "completed": false,
-          "earnedDate": null
-        },
-        {
-          "title": "Google DeepMind: Train A Small Language Model",
-          "sheet": "Gen AI Development",
-          "level": "상급",
           "type": "Skill Badge",
           "isSkillBadge": true,
           "isBadge": false,
@@ -6803,10 +6773,10 @@
       "completedCount": 14,
       "badgeCount": 14,
       "skillBadgeCount": 0,
-      "totalCourses": 218,
+      "totalCourses": 217,
       "totalBadges": 160,
-      "totalSkillBadges": 58,
-      "completionRate": 6.4,
+      "totalSkillBadges": 57,
+      "completionRate": 6.5,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -8459,16 +8429,6 @@
           "earnedDate": null
         },
         {
-          "title": "Google DeepMind: Train A Small Language Model",
-          "sheet": "Gen AI Development",
-          "level": "상급",
-          "type": "Skill Badge",
-          "isSkillBadge": true,
-          "isBadge": false,
-          "completed": false,
-          "earnedDate": null
-        },
-        {
           "title": "Deploy Multi-Agent Architectures",
           "sheet": "Gen AI Development",
           "level": "상급",
@@ -9061,10 +9021,10 @@
       "completedCount": 14,
       "badgeCount": 14,
       "skillBadgeCount": 0,
-      "totalCourses": 218,
+      "totalCourses": 217,
       "totalBadges": 160,
-      "totalSkillBadges": 58,
-      "completionRate": 6.4,
+      "totalSkillBadges": 57,
+      "completionRate": 6.5,
       "courses": [
         {
           "title": "Introduction to Generative AI",
@@ -10717,16 +10677,6 @@
           "earnedDate": null
         },
         {
-          "title": "Google DeepMind: Train A Small Language Model",
-          "sheet": "Gen AI Development",
-          "level": "상급",
-          "type": "Skill Badge",
-          "isSkillBadge": true,
-          "isBadge": false,
-          "completed": false,
-          "earnedDate": null
-        },
-        {
           "title": "Deploy Multi-Agent Architectures",
           "sheet": "Gen AI Development",
           "level": "상급",
@@ -11315,9 +11265,9 @@
       "completedCount": 12,
       "badgeCount": 12,
       "skillBadgeCount": 0,
-      "totalCourses": 218,
+      "totalCourses": 217,
       "totalBadges": 160,
-      "totalSkillBadges": 58,
+      "totalSkillBadges": 57,
       "completionRate": 5.5,
       "courses": [
         {
@@ -12964,16 +12914,6 @@
           "title": "Engineer AI Agents with Agent Development Kit (ADK)",
           "sheet": "Gen AI Development",
           "level": "중급",
-          "type": "Skill Badge",
-          "isSkillBadge": true,
-          "isBadge": false,
-          "completed": false,
-          "earnedDate": null
-        },
-        {
-          "title": "Google DeepMind: Train A Small Language Model",
-          "sheet": "Gen AI Development",
-          "level": "상급",
           "type": "Skill Badge",
           "isSkillBadge": true,
           "isBadge": false,
@@ -14876,14 +14816,6 @@
       "title": "Engineer AI Agents with Agent Development Kit (ADK)",
       "sheet": "Gen AI Development",
       "level": "중급",
-      "type": "Skill Badge",
-      "isSkillBadge": true,
-      "isBadge": false
-    },
-    {
-      "title": "Google DeepMind: Train A Small Language Model",
-      "sheet": "Gen AI Development",
-      "level": "상급",
       "type": "Skill Badge",
       "isSkillBadge": true,
       "isBadge": false
