@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-31T04:19:56.118550+00:00",
+  "updatedAt": "2026-08-31T10:59:19.367193+00:00",
   "spreadsheetId": "1BNecy6MtlhD0y217kmqb5I7zP6Yk_94aWHwYdaBbF0k",
   "totalCourses": 192,
   "totalBadges": 140,
@@ -57,7 +57,7 @@
           "isSkillBadge": false,
           "isBadge": true,
           "completed": true,
-          "earnedDate": "May 23, 2026 EDT"
+          "earnedDate": "may 23, 2026 edt"
         },
         {
           "title": "Introduction to AI and Machine Learning on Google Cloud",
@@ -1942,7 +1942,7 @@
       ],
       "allEarnedItems": [
         {
-          "title": "Introduction to Responsible AI",
+          "title": "[DEPRECATED]Introduction to Responsible AI",
           "earnedDate": "May 23, 2026 EDT"
         },
         {
@@ -2041,7 +2041,7 @@
           "isSkillBadge": false,
           "isBadge": true,
           "completed": true,
-          "earnedDate": "May 23, 2026 EDT"
+          "earnedDate": "may 23, 2026 edt"
         },
         {
           "title": "Introduction to AI and Machine Learning on Google Cloud",
@@ -3926,7 +3926,7 @@
       ],
       "allEarnedItems": [
         {
-          "title": "Introduction to Responsible AI",
+          "title": "[DEPRECATED]Introduction to Responsible AI",
           "earnedDate": "May 23, 2026 EDT"
         },
         {
